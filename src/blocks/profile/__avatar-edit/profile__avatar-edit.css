@@ -1,0 +1,24 @@
+.profile__avatar-edit {
+    position: relative;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    width: 120px;
+    height: 120px;
+    transition: all 250ms;
+    cursor: pointer;
+    background-color: #000;
+}
+
+.profile__avatar-edit::before {
+    content: url(/src/images/pen.svg);
+    position: absolute;
+    top: 47px;
+    left: 47px;
+    opacity: 0;
+    transition: all 350ms;
+}
+
+.profile__avatar-edit:hover::before {
+    opacity: 1;
+}
