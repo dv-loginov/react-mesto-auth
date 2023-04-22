@@ -1,16 +1,23 @@
-import cap from '../images/cap.jpg';
+import { useState, useEffect } from 'react';
+import api from '../utils/Api';
 
-const Main = () => {
+const Main = (props) => {
 
-  const handleEditAvatarClick = () => {
-    document.querySelector('.popup_type_avatar').classList.add('popup_opened');
-  };
-  const handleEditProfileClick = () => {
-    document.querySelector('.popup_type_profile').classList.add('popup_opened');
-  };
-  const handleAddPlaceClick = () => {
-    document.querySelector('.popup_type_place').classList.add('popup_opened');
-  };
+  const [{userName, userDescription, userAvatar}, setUser] = useState({});
+
+  useEffect(() => {
+    api.getUser()
+      .then((data) => {
+        console.log(data);
+        setUser({
+          userName: data.name,
+          userDescription: data.about,
+          userAvatar: data.avatar
+        })
+      })
+      .catch((err) => console.error(err))
+  }, []);
+
 
   return (
     <main className="main">
@@ -18,23 +25,24 @@ const Main = () => {
         <div className="profile">
           <button type='button'
                   className="profile__avatar-edit"
-                  onClick={ handleEditAvatarClick }>
-            <img src={ cap }
-                 alt="Аватар"
-                 className="profile__avatar"/>
+                  onClick={ props.onEditAvatar }
+                  style={ {backgroundImage: `url(${ userAvatar })`} }>
+            {/*<img src={ userAvatar || cap }*/ }
+            {/*     alt="Аватар"*/ }
+            {/*     className="profile__avatar"/>*/ }
           </button>
           <div className="profile__info">
             <div className="profile__row">
-              <h1 className="profile__title">Имя</h1>
+              <h1 className="profile__title">{ userName }</h1>
               <button className="profile__edit-btn"
                       type="button"
-                      onClick={ handleEditProfileClick }/>
+                      onClick={ props.onEditProfile }/>
             </div>
-            <p className="profile__subtitle"></p>
+            <p className="profile__subtitle">{ userDescription }</p>
           </div>
           <button className="add-btn"
                   type="button"
-                  onClick={ handleAddPlaceClick }/>
+                  onClick={ props.onAddPlace }/>
         </div>
       </section>
       <section>
