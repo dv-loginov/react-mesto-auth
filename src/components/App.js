@@ -11,7 +11,7 @@ const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, selectCard] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -26,7 +26,7 @@ const App = () => {
   };
 
   const handleCardClick = (data) => {
-    selectCard(data);
+    setSelectedCard(data);
   }
 
   const closeAllPopups = (data) => {
@@ -41,7 +41,7 @@ const App = () => {
         setIsAddPlacePopupOpen(false);
         break;
       case 'img':
-        selectCard(false);
+        setSelectedCard({name: '', link: ''});
         break;
     }
   }
@@ -59,17 +59,79 @@ const App = () => {
           name='profile'
           title='Редактировать профиль'
           isOpen={ isEditProfilePopupOpen }
-          onClose={ closeAllPopups }/>
+          onClose={ closeAllPopups }>
+
+          <input id="name-input"
+                 type="text"
+                 className="form__input"
+                 name="name"
+                 defaultValue=""
+                 minLength="2"
+                 maxLength="40"
+                 placeholder="Имя"
+                 required/>
+          <span className="name-input-error form__input-error">Error</span>
+          <input id="job-input"
+                 type="text"
+                 className="form__input"
+                 name="job"
+                 defaultValue=""
+                 minLength="2"
+                 maxLength="200"
+                 placeholder="Занятие"
+                 required/>
+          <span className="job-input-error form__input-error">Error</span>
+          <button type="submit" className="form__btn">Сохранить</button>
+
+        </PopupWithForm>
+
         <PopupWithForm
           name='place'
           title='Новое место'
           isOpen={ isAddPlacePopupOpen }
-          onClose={ closeAllPopups }/>
+          onClose={ closeAllPopups }>
+
+          <input id="title-input"
+                 type="text"
+                 className="form__input"
+                 name="name"
+                 placeholder="Название"
+                 defaultValue=""
+                 minLength="2"
+                 maxLength="30"
+                 required/>
+          <span className="title-input-error form__input-error">Error</span>
+          <input id="url-input"
+                 type="url"
+                 className="form__input"
+                 name="url"
+                 placeholder="Ссылка на картинку"
+                 defaultValue=""
+                 required/>
+          <span className="url-input-error form__input-error">Error</span>
+          <button type="submit"
+                  className="form__btn"
+                  name="create">Создать
+          </button>
+
+        </PopupWithForm>
         <PopupWithForm
           name='avatar'
           title='Обновить аватар'
           isOpen={ isEditAvatarPopupOpen }
-          onClose={ closeAllPopups }/>
+          onClose={ closeAllPopups }>
+
+          <input id="url-avatar-input"
+                 type="url"
+                 className="form__input"
+                 name="url"
+                 placeholder="Ссылка на картинку"
+                 defaultValue=""
+                 required/>
+          <span className="url-avatar-input-error form__input-error">Error</span>
+          <button type="submit" className="form__btn" name="save">Сохранить</button>
+
+        </PopupWithForm>
         <ImagePopup
           name='img'
           card={ selectedCard }
