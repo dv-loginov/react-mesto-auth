@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/Api';
+import Card from './Card';
 
 const Main = (props) => {
 
@@ -53,17 +54,12 @@ const Main = (props) => {
           {
             cards.map((card) => {
               return (
-                <li className="element" key={card._id}>
-                  <img src={card.link} alt={card.name} className="element__img"/>
-                  <button type="button" className="element__btn-trash"></button>
-                  <div className="element__row">
-                    <h2 className="element__name">{card.name}</h2>
-                    <div className="element__btn-warp">
-                      <button type="button" className="element__btn-like"></button>
-                      <span className="element__counter-like">{card.likes.length}</span>
-                    </div>
-                  </div>
-                </li>
+                <Card key={ card._id }
+                      id={ card._id }
+                      link={ card.link }
+                      name={ card.name }
+                      likes={ card.likes }
+                />
               )
             })
           }
