@@ -1,24 +1,23 @@
 import React from 'react';
 
-const Card = (props) => {
-
+const Card = ({card, onCardClick}) => {
   const handleClick = () => {
-    props.onCardClick(props.card);
+    onCardClick(card);
   }
 
   return (
     <li className="element">
       <img
-        src={ props.card.link }
-        alt={ props.card.name }
+        src={ card.link }
+        alt={ card.name }
         className="element__img"
         onClick={ handleClick }/>
       <button type="button" className="element__btn-trash"></button>
       <div className="element__row">
-        <h2 className="element__name">{ props.card.name }</h2>
+        <h2 className="element__name">{ card.name }</h2>
         <div className="element__btn-warp">
           <button type="button" className="element__btn-like"></button>
-          <span className="element__counter-like">{ props.card.likes.length }</span>
+          <span className="element__counter-like">{ card.likes.length }</span>
         </div>
       </div>
     </li>

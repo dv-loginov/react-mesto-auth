@@ -1,14 +1,14 @@
-const ImagePopup = (props) => {
+const ImagePopup = ({card, onClose}) => {
   return (
-    <div className={ `popup popup_type_${ props.card.name }${ props.card.link && ' popup_opened' }` }>
+    <div className={ `popup popup_type_${ card.name }${ card.link && ' popup_opened' }` }>
       <figure className="popup__container-img">
-        <img className="popup__img" src={ props.card.link } alt={ props.card.name }/>
-        <figcaption className="popup__caption">{ props.card.name }</figcaption>
+        <img className="popup__img" src={ card.link } alt={ card.name }/>
+        <figcaption className="popup__caption">{ card.name }</figcaption>
         <button
           type="button"
           className="popup__close"
           onClick={ () => {
-            props.onClose(props.name)
+            onClose();
           } }/>
       </figure>
     </div>
