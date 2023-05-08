@@ -12,7 +12,7 @@ class Api {
     return this._request('users/me', {headers: this._headers});
   }
 
-  setUser({name, job: about}) {
+  setUser({name, about}) {
     return this._request('users/me', {
       method: 'PATCH',
       headers: this._headers,
@@ -49,6 +49,10 @@ class Api {
       method: 'DELETE',
       headers: this._headers,
     });
+  }
+
+  changeLikeCardStatus(id, isLike) {
+    return isLike ? this.setLike(id): this.deleteLike(id);
   }
 
   setLike(id) {
