@@ -7,6 +7,7 @@ import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -77,6 +78,15 @@ const App = () => {
       .catch((err) => console.error(err));
   }
 
+  const handleUpdateAvatar = ({avatar}) => {
+    api.setAvatar(avatar)
+      .then((data) => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch((err) => console.error(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={ currentUser }>
       <div className='page'>
@@ -97,7 +107,12 @@ const App = () => {
             onClose={ closeAllPopups }
             onUpdateUser={ handleUpdateUser }/>
 
-         <PopupWithForm
+          <EditAvatarPopup
+            isOpen={ isEditAvatarPopupOpen }
+            onClose={ closeAllPopups }
+            onUpdateAvatar={ handleUpdateAvatar }/>
+
+          <PopupWithForm
             name='place'
             title='Новое место'
             isOpen={ isAddPlacePopupOpen }
@@ -122,23 +137,6 @@ const App = () => {
                    defaultValue=''
                    required/>
             <span className='url-input-error form__input-error'>Error</span>
-          </PopupWithForm>
-
-          <PopupWithForm
-            name='avatar'
-            title='Обновить аватар'
-            isOpen={ isEditAvatarPopupOpen }
-            onClose={ closeAllPopups }
-            buttonText='Сохранить'>
-
-            <input id='url-avatar-input'
-                   type='url'
-                   className='form__input'
-                   name='url'
-                   placeholder='Ссылка на картинку'
-                   defaultValue=''
-                   required/>
-            <span className='url-avatar-input-error form__input-error'>Error</span>
           </PopupWithForm>
 
           <ImagePopup

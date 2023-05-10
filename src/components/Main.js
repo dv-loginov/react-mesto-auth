@@ -46,7 +46,6 @@ const Main = ({
                       onCardClick={ onCardClick }
                       onCardLike={ onCardLike }
                       onCardDelete={ onCardDelete }
-
                 />
               )
             })
