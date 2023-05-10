@@ -12,7 +12,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
   useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   const handleChangeName = (event) => {
     setName(event.target.value);
@@ -38,12 +38,11 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
       isOpen={ isOpen }
       onClose={ onClose }
       buttonText='Сохранить'>
-
       <input id='name-input'
              type='text'
              className='form__input'
              name='name'
-             defaultValue={ name }
+             value={ name||'' }
              onChange={ handleChangeName }
              minLength='2'
              maxLength='40'
@@ -54,14 +53,13 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
              type='text'
              className='form__input'
              name='job'
-             defaultValue={ description }
+             value={ description||'' }
              onChange={ handleChangeDescription }
              minLength='2'
              maxLength='200'
              placeholder='Занятие'
              required/>
       <span className='job-input-error form__input-error'>Error</span>
-
     </PopupWithForm>
   )
 };

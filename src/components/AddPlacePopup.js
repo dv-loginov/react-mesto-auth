@@ -1,17 +1,28 @@
 import PopupWithForm from './PopupWithForm';
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
 
-  const inputNameRef = useRef();
-  const inputLinkRef = useRef();
+  const [name, setName] = useState('');
+  const [link, setLink] = useState('');
+
+  const handleChangeName = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleChangeLink = (event) => {
+    setLink(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    onAddPlace({name: inputNameRef.current.value, link: inputLinkRef.current.value});
-    inputNameRef.current.value = '';
-    inputLinkRef.current.value = '';
+    onAddPlace({name: name, link: link});
   };
+
+  useEffect(() => {
+    setName('');
+    setLink('');
+  }, [isOpen]);
 
   return (
     <PopupWithForm
@@ -27,10 +38,10 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
              className='form__input'
              name='name'
              placeholder='Название'
-             defaultValue=''
+             value={ name }
              minLength='2'
              maxLength='30'
-             ref={ inputNameRef }
+             onChange={ handleChangeName }
              required/>
       <span className='title-input-error form__input-error'>Error</span>
       <input id='url-input'
@@ -38,8 +49,8 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
              className='form__input'
              name='url'
              placeholder='Ссылка на картинку'
-             defaultValue=''
-             ref={ inputLinkRef }
+             value={ link }
+             onChange={ handleChangeLink}
              required/>
       <span className='url-input-error form__input-error'>Error</span>
     </PopupWithForm>

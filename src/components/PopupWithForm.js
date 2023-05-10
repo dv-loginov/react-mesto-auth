@@ -11,7 +11,6 @@ const PopupWithForm = ({isOpen, onClose, onSubmit, name, title, buttonText, chil
           type="button"
           className="popup__close"
           onClick={ onClose }/>
-        />
       </div>
     </div>
   );
