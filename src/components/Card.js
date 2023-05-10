@@ -38,7 +38,7 @@ const Card = ({card, onCardClick, onCardLike, onCardDelete}) => {
         <div className="element__btn-warp">
           <button type="button"
                   className={ cardLikeButtonClassName }
-                  onClick={ handleLikeClick } />
+                  onClick={ handleLikeClick }/>
           <span className="element__counter-like">{ card.likes.length }</span>
         </div>
       </div>

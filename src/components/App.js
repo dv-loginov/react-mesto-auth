@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import api from '../utils/api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -87,6 +87,16 @@ const App = () => {
       .catch((err) => console.error(err));
   }
 
+  const handleAddPlaceSubmit = ({name, link}) => {
+    api.addCard({name, link})
+      .then((data) => {
+        setCards([data, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => console.error(err));
+  }
+
+
   return (
     <CurrentUserContext.Provider value={ currentUser }>
       <div className='page'>
@@ -112,32 +122,11 @@ const App = () => {
             onClose={ closeAllPopups }
             onUpdateAvatar={ handleUpdateAvatar }/>
 
-          <PopupWithForm
-            name='place'
-            title='Новое место'
+          <AddPlacePopup
             isOpen={ isAddPlacePopupOpen }
             onClose={ closeAllPopups }
-            buttonText='Создать'>
-
-            <input id='title-input'
-                   type='text'
-                   className='form__input'
-                   name='name'
-                   placeholder='Название'
-                   defaultValue=''
-                   minLength='2'
-                   maxLength='30'
-                   required/>
-            <span className='title-input-error form__input-error'>Error</span>
-            <input id='url-input'
-                   type='url'
-                   className='form__input'
-                   name='url'
-                   placeholder='Ссылка на картинку'
-                   defaultValue=''
-                   required/>
-            <span className='url-input-error form__input-error'>Error</span>
-          </PopupWithForm>
+            onAddPlace={ handleAddPlaceSubmit }
+          />
 
           <ImagePopup
             card={ selectedCard }
