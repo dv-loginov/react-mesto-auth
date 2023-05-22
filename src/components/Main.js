@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../utils/Api';
+import api from '../utils/api';
 import Card from './Card';
 
 const Main = (props) => {
@@ -55,10 +55,8 @@ const Main = (props) => {
             cards.map((card) => {
               return (
                 <Card key={ card._id }
-                      id={ card._id }
-                      link={ card.link }
-                      name={ card.name }
-                      likes={ card.likes }
+                      card={ card }
+                      onCardClick={ props.onCardClick }
                 />
               )
             })

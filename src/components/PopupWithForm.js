@@ -9,7 +9,9 @@ const PopupWithForm = (props) => {
         <button
           type="button"
           className="popup__close"
-          onClick={ ()=> {props.onClose(props.name)} }></button>
+          onClick={ () => {
+            props.onClose(props.name)
+          } }/>
       </div>
     </div>
   );

@@ -4,12 +4,14 @@ import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 const App = () => {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, selectCard] = useState(false);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -23,6 +25,10 @@ const App = () => {
     setIsAddPlacePopupOpen(true);
   };
 
+  const handleCardClick = (data) => {
+    selectCard(data);
+  }
+
   const closeAllPopups = (data) => {
     switch (data) {
       case 'avatar':
@@ -34,138 +40,41 @@ const App = () => {
       case 'place':
         setIsAddPlacePopupOpen(false);
         break;
+      case 'img':
+        selectCard(false);
+        break;
     }
   }
 
   return (
     <div className='page'>
       <div className='page__content'>
-      <Header/>
-      <Main onEditProfile={ handleEditProfileClick }
-            onAddPlace={ handleAddPlaceClick }
-            onEditAvatar={ handleEditAvatarClick }/>
-      <Footer/>
-      <PopupWithForm
-        name='profile'
-        title='Редактировать профиль'
-        isOpen={ isEditProfilePopupOpen }
-        onClose={ closeAllPopups }/>
-      <PopupWithForm
-        name='place'
-        title='Новое место'
-        isOpen={ isAddPlacePopupOpen }
-        onClose={ closeAllPopups }/>
-      <PopupWithForm
-        name='avatar'
-        title='Обновить аватар'
-        isOpen={ isEditAvatarPopupOpen }
-        onClose={ closeAllPopups }/>
-
-      {/*<div className="popup popup_type_profile">*/ }
-      {/*  <div className="popup__container">*/ }
-      {/*    <h3 className="popup__title">Редактировать профиль</h3>*/ }
-      {/*    <form action="#" className="form" name="profile-form" noValidate>*/ }
-      {/*      <input id="name-input"*/ }
-      {/*             type="text"*/ }
-      {/*             className="form__input"*/ }
-      {/*             name="name"*/ }
-      {/*             defaultValue=""*/ }
-      {/*             minLength="2"*/ }
-      {/*             maxLength="40"*/ }
-      {/*             required/>*/ }
-      {/*      <span className="name-input-error form__input-error">Error</span>*/ }
-      {/*      <input id="job-input"*/ }
-      {/*             type="text"*/ }
-      {/*             className="form__input"*/ }
-      {/*             name="job"*/ }
-      {/*             defaultValue=""*/ }
-      {/*             minLength="2"*/ }
-      {/*             maxLength="200"*/ }
-      {/*             required/>*/ }
-      {/*      <span className="job-input-error form__input-error">Error</span>*/ }
-      {/*      <button type="submit" className="form__btn">Сохранить</button>*/ }
-      {/*    </form>*/ }
-      {/*    <button type="button" className="popup__close"></button>*/ }
-      {/*  </div>*/ }
-      {/*</div>*/ }
-
-      {/*<div className="popup popup_type_place">*/ }
-      {/*  <div className="popup__container">*/ }
-      {/*    <h3 className="popup__title">Новое место</h3>*/ }
-      {/*    <form action="#" className="form" name="card-form" noValidate>*/ }
-      {/*      <input id="title-input"*/ }
-      {/*             type="text"*/ }
-      {/*             className="form__input"*/ }
-      {/*             name="name"*/ }
-      {/*             placeholder="Название"*/ }
-      {/*             defaultValue=""*/ }
-      {/*             minLength="2"*/ }
-      {/*             maxLength="30"*/ }
-      {/*             required/>*/ }
-      {/*      <span className="title-input-error form__input-error">Error</span>*/ }
-      {/*      <input id="url-input"*/ }
-      {/*             type="url"*/ }
-      {/*             className="form__input"*/ }
-      {/*             name="url"*/ }
-      {/*             placeholder="Ссылка на картинку"*/ }
-      {/*             defaultValue=""*/ }
-      {/*             required/>*/ }
-      {/*      <span className="url-input-error form__input-error">Error</span>*/ }
-      {/*      <button type="submit" className="form__btn" name="create">Создать</button>*/ }
-      {/*    </form>*/ }
-      {/*    <button type="button" className="popup__close"></button>*/ }
-      {/*  </div>*/ }
-      {/*</div>*/ }
-
-      {/*<div className="popup popup_type_avatar">*/ }
-      {/*  <div className="popup__container">*/ }
-      {/*    <h3 className="popup__title">Обновить аватар</h3>*/ }
-      {/*    <form action="#" className="form" name="avatar-form" noValidate>*/ }
-      {/*      <input id="url-avatar-input"*/ }
-      {/*             type="url"*/ }
-      {/*             className="form__input"*/ }
-      {/*             name="url"*/ }
-      {/*             placeholder="Ссылка на картинку"*/ }
-      {/*             defaultValue=""*/ }
-      {/*             required/>*/ }
-      {/*      <span className="url-avatar-input-error form__input-error">Error</span>*/ }
-      {/*      <button type="submit" className="form__btn" name="save">Сохранить</button>*/ }
-      {/*    </form>*/ }
-      {/*    <button type="button" className="popup__close"></button>*/ }
-      {/*  </div>*/ }
-      {/*</div>*/ }
-
-      {/*<div className="popup popup_type_question">*/ }
-      {/*  <div className="popup__container">*/ }
-      {/*    <h3 className="popup__title">Вы уверены?</h3>*/ }
-      {/*    <form action="#" className="form form_question" name="question-form" noValidate>*/ }
-      {/*      <button type="submit" className="form__btn form__btn_question" name="answer">Да</button>*/ }
-      {/*    </form>*/ }
-      {/*    <button type="button" className="popup__close"></button>*/ }
-      {/*  </div>*/ }
-      {/*</div>*/ }
-
-      {/*<div className="popup popup_type_img">*/ }
-      {/*  <figure className="popup__container-img">*/ }
-      {/*    <img className="popup__img" src="#" alt="#"/>*/ }
-      {/*    <figcaption className="popup__caption"></figcaption>*/ }
-      {/*    <button type="button" className="popup__close"></button>*/ }
-      {/*  </figure>*/ }
-      {/*</div>*/ }
-
-      {/*<template id="card">*/ }
-      {/*  <li className="element">*/ }
-      {/*    <img src="#" alt="#" className="element__img"/>*/ }
-      {/*    <button type="button" className="element__btn-trash"></button>*/ }
-      {/*    <div className="element__row">*/ }
-      {/*      <h2 className="element__name">Имя</h2>*/ }
-      {/*      <div className="element__btn-warp">*/ }
-      {/*        <button type="button" className="element__btn-like"></button>*/ }
-      {/*        <span className="element__counter-like">0</span>*/ }
-      {/*      </div>*/ }
-      {/*    </div>*/ }
-      {/*  </li>*/ }
-      {/*</template>*/ }
+        <Header/>
+        <Main onEditProfile={ handleEditProfileClick }
+              onAddPlace={ handleAddPlaceClick }
+              onEditAvatar={ handleEditAvatarClick }
+              onCardClick={ handleCardClick }/>
+        <Footer/>
+        <PopupWithForm
+          name='profile'
+          title='Редактировать профиль'
+          isOpen={ isEditProfilePopupOpen }
+          onClose={ closeAllPopups }/>
+        <PopupWithForm
+          name='place'
+          title='Новое место'
+          isOpen={ isAddPlacePopupOpen }
+          onClose={ closeAllPopups }/>
+        <PopupWithForm
+          name='avatar'
+          title='Обновить аватар'
+          isOpen={ isEditAvatarPopupOpen }
+          onClose={ closeAllPopups }/>
+        <ImagePopup
+          name='img'
+          card={ selectedCard }
+          onClose={ closeAllPopups }
+        />
       </div>
     </div>
   );
