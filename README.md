@@ -9,8 +9,7 @@
 
 **Deploy**
 
-* [Mesto]https://dv-loginov.github.io/
-  react-mesto-auth /
+* [Mesto]https://dv-loginov.github.io/react-mesto-auth/
 
 **Figma**
 
