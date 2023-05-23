@@ -1,0 +1,11 @@
+.form__input_auth {
+  color: #FFF;
+  border-bottom: 2px solid #CCC;
+  background-color: #000;
+}
+
+.form__input_auth::placeholder {
+  background-color: #000;
+  padding-bottom: 9px;
+  color: #CCC;
+}

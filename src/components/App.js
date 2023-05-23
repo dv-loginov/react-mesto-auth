@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -8,6 +9,9 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import Login from './Login';
+import Register from './Register';
+import ProtectedRoute from './ProtectedRoute';
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -16,6 +20,7 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     api.getUser()
@@ -101,15 +106,25 @@ const App = () => {
     <CurrentUserContext.Provider value={ currentUser }>
       <div className='page'>
         <div className='page__content'>
-          <Header/>
-
-          <Main onEditProfile={ handleEditProfileClick }
+          <Header isLoggedIn={ isLoggedIn }/>
+          <Routes>
+            <Route path="/" element={
+              <ProtectedRoute
+                element={ <Main
+                onEditProfile={ handleEditProfileClick }
                 onAddPlace={ handleAddPlaceClick }
                 onEditAvatar={ handleEditAvatarClick }
                 onCardClick={ handleCardClick }
                 onCardLike={ handleCardLike }
                 onCardDelete={ handleCardDelete }
-                cards={ cards }/>
+                cards={ cards }/>}
+                isLoggedIn={ isLoggedIn }
+              />
+            }/>
+            <Route path="/login" element={ <main className="auth"><Login/></main> }/>
+            <Route path="/sign-in" element={ <main className="auth"><Register/></main> }/>
+            <Route path="*" element={<h2>Page not found</h2>}></Route>
+          </Routes>
           <Footer/>
 
           <EditProfilePopup

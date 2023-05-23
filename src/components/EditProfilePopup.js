@@ -42,7 +42,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
              type='text'
              className='form__input'
              name='name'
-             value={ name||'' }
+             value={ name || '' }
              onChange={ handleChangeName }
              minLength='2'
              maxLength='40'
@@ -53,7 +53,7 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateUser}) => {
              type='text'
              className='form__input'
              name='job'
-             value={ description||'' }
+             value={ description || '' }
              onChange={ handleChangeDescription }
              minLength='2'
              maxLength='200'
