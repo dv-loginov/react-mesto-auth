@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -14,6 +14,7 @@ import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import AuthOkPopup from './AuthOkPopup';
 import AuthErrorPopup from './AuthErrorPopup';
+import apiAuth from '../utils/apiAuth';
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -107,16 +108,40 @@ const App = () => {
       .catch((err) => console.error(err));
   }
 
+  //login@test.ru
+  //password12345
+
   const handleLogin = ({email, password}) => {
+    apiAuth.login({password, email})
+      .then((data) => {
+        console.log(data);
+        setLoggedIn(true);
+        console.log(isLoggedIn);
+        <Navigate to='/' replace/>
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsAuthErrorPopupOpen(true);
+      })
+
     console.log('Login');
     console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-    setIsAuthErrorPopupOpen(true);
+    // setIsAuthErrorPopupOpen(true);
   }
 
   const handleRegister = ({email, password}) => {
+    apiAuth.register({password, email})
+      .then((data) => {
+        console.log(data);
+        setIsAuthOkPopupOpen(true)
+      })
+      .catch((err) => {
+        console.error(err);
+        setIsAuthErrorPopupOpen(true)
+      })
     console.log('Register');
     console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-    setIsAuthOkPopupOpen(true);
+    // setIsAuthOkPopupOpen(true);
   }
 
   return (
