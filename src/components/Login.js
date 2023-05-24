@@ -1,14 +1,9 @@
 import AuthForm from './AuthForm';
 
-const Login = () => {
-
-  const verificationUser = ({email, password}) => {
-    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-  }
-
+const Login = ({handleLogin}) => {
   return (
     <AuthForm
-      handleSubmit={ verificationUser }
+      handleSubmit={ handleLogin }
       title={ 'Вход' }
       name={ 'login' }
       buttonText={ 'Войти' }

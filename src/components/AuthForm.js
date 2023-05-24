@@ -20,7 +20,11 @@ const AuthForm = ({handleSubmit, title, name, buttonText, children = ''}) => {
   return (
     <div className='auth__container'>
       <h3 className="auth__title">{ title }</h3>
-      <form action="#" className={ `form form_auth` } name={ `${ name }-form` } onSubmit={ onSubmit }>
+      <form autoComplete="off"
+        action="#"
+        className={ `form form_auth` }
+        name={ `${ name }-form` }
+        onSubmit={ onSubmit }>
         <input id='email-input'
                type='email'
                className='form__input form__input_auth'

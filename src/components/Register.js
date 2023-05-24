@@ -1,14 +1,10 @@
 import AuthForm from './AuthForm';
 import { Link } from 'react-router-dom';
 
-const Register = () => {
-  const verificationUser = ({email, password}) => {
-    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-  }
-
+const Register = ({handleRegister}) => {
   return (
     <AuthForm
-      handleSubmit={ verificationUser }
+      handleSubmit={ handleRegister }
       title={ 'Регистрация' }
       name={ 'sign-in' }
       buttonText={ 'Зарегистрироваться' }

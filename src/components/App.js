@@ -12,11 +12,15 @@ import AddPlacePopup from './AddPlacePopup';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
+import AuthOkPopup from './AuthOkPopup';
+import AuthErrorPopup from './AuthErrorPopup';
 
 const App = () => {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isAuthOkPopupOpen, setIsAuthOkPopupOpen] = useState(false);
+  const [isAuthErrorPopupOpen, setIsAuthErrorPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -59,6 +63,8 @@ const App = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard({name: '', link: ''});
+    setIsAuthOkPopupOpen(false);
+    setIsAuthErrorPopupOpen(false);
   }
 
   const handleCardLike = (card) => {
@@ -101,6 +107,17 @@ const App = () => {
       .catch((err) => console.error(err));
   }
 
+  const handleLogin = ({email, password}) => {
+    console.log('Login');
+    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
+    setIsAuthErrorPopupOpen(true);
+  }
+
+  const handleRegister = ({email, password}) => {
+    console.log('Register');
+    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
+    setIsAuthOkPopupOpen(true);
+  }
 
   return (
     <CurrentUserContext.Provider value={ currentUser }>
@@ -111,21 +128,39 @@ const App = () => {
             <Route path="/" element={
               <ProtectedRoute
                 element={ <Main
-                onEditProfile={ handleEditProfileClick }
-                onAddPlace={ handleAddPlaceClick }
-                onEditAvatar={ handleEditAvatarClick }
-                onCardClick={ handleCardClick }
-                onCardLike={ handleCardLike }
-                onCardDelete={ handleCardDelete }
-                cards={ cards }/>}
+                  onEditProfile={ handleEditProfileClick }
+                  onAddPlace={ handleAddPlaceClick }
+                  onEditAvatar={ handleEditAvatarClick }
+                  onCardClick={ handleCardClick }
+                  onCardLike={ handleCardLike }
+                  onCardDelete={ handleCardDelete }
+                  cards={ cards }/> }
                 isLoggedIn={ isLoggedIn }
               />
             }/>
-            <Route path="/login" element={ <main className="auth"><Login/></main> }/>
-            <Route path="/sign-in" element={ <main className="auth"><Register/></main> }/>
-            <Route path="*" element={<h2>Page not found</h2>}></Route>
+            <Route
+              path="/login"
+              element={
+                <main className="auth">
+                  <Login handleLogin={ handleLogin }/>
+                </main> }/>
+            <Route
+              path="/sign-in"
+              element={
+                <main className="auth">
+                  <Register handleRegister={ handleRegister }/>
+                </main> }/>
+            <Route path="*" element={ <h2>Page not found</h2> }></Route>
           </Routes>
           <Footer/>
+
+          <AuthOkPopup
+            isOpen={ isAuthOkPopupOpen }
+            onClose={ closeAllPopups }/>
+
+          <AuthErrorPopup
+            isOpen={ isAuthErrorPopupOpen }
+            onClose={ closeAllPopups }/>
 
           <EditProfilePopup
             isOpen={ isEditProfilePopupOpen }
