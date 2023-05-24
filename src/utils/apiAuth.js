@@ -1,13 +1,11 @@
 class ApiAuth {
   constructor(opt) {
     this._baseUrl = opt.baseUrl;
-    // this._headers = opt.headers;
   }
 
   register({password, email}) {
     return this._request('signup', {
       method: 'POST',
-      // headers: this._headers,
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         password: password,
@@ -16,10 +14,9 @@ class ApiAuth {
     });
   }
 
-  login({password, email}) {
+  authorize({password, email}) {
     return this._request('signin', {
       method: 'POST',
-      // headers: this._headers,
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         password: password,
@@ -52,9 +49,6 @@ class ApiAuth {
 
 const apiAuth = new ApiAuth({
   baseUrl: 'https://auth.nomoreparties.co',
-  // headers: {
-  //   'Content-Type': 'application/json'
-  // }
 });
 
 export default apiAuth;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -26,6 +26,8 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setLoggedIn] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.getUser()
@@ -112,36 +114,29 @@ const App = () => {
   //password12345
 
   const handleLogin = ({email, password}) => {
-    apiAuth.login({password, email})
+    apiAuth.authorize({password, email})
       .then((data) => {
         console.log(data);
         setLoggedIn(true);
-        console.log(isLoggedIn);
-        <Navigate to='/' replace/>
+        navigate('/');
       })
       .catch((err) => {
         console.error(err);
         setIsAuthErrorPopupOpen(true);
       })
-
-    console.log('Login');
-    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-    // setIsAuthErrorPopupOpen(true);
   }
 
   const handleRegister = ({email, password}) => {
     apiAuth.register({password, email})
       .then((data) => {
         console.log(data);
-        setIsAuthOkPopupOpen(true)
+        setIsAuthOkPopupOpen(true);
+        navigate('/');
       })
       .catch((err) => {
         console.error(err);
         setIsAuthErrorPopupOpen(true)
       })
-    console.log('Register');
-    console.log(`Пользователь - ${ email } Пароль - ${ password }`);
-    // setIsAuthOkPopupOpen(true);
   }
 
   return (
