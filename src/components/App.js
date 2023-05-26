@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Main from './Main';
@@ -25,19 +25,21 @@ const App = () => {
   const [selectedCard, setSelectedCard] = useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(null);
+  const [email, setEmail] = useState(null);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-     if (isLoggedIn) {
-       api.getInitData()
-         .then((data) => {
-           setCards(data[0]);
-           setCurrentUser(data[1]);
-         })
-         .catch((err) => console.error(err));
-     }
+    if (isLoggedIn) {
+      api.getInitData()
+        .then((data) => {
+          setCards(data[0]);
+          setCurrentUser(data[1]);
+        })
+        .catch((err) => console.error(err));
+    }
   }, [isLoggedIn]);
 
   const handleEditAvatarClick = () => {
@@ -108,8 +110,9 @@ const App = () => {
   const handleLogin = ({email, password}) => {
     apiAuth.authorize({password, email})
       .then((data) => {
-        console.log(data);
+        localStorage.setItem('jwt', data.token);
         setLoggedIn(true);
+        setEmail(email);
         navigate('/');
       })
       .catch((err) => {
@@ -121,7 +124,6 @@ const App = () => {
   const handleRegister = ({email, password}) => {
     apiAuth.register({password, email})
       .then((data) => {
-        console.log(data);
         setIsAuthOkPopupOpen(true);
         navigate('/');
       })
@@ -131,11 +133,44 @@ const App = () => {
       })
   }
 
+  const checkToken = () => {
+    apiAuth.checkToken(localStorage.getItem('jwt'))
+      .then((res) => {
+        setLoggedIn(true);
+        setEmail(res.data.email);
+        navigate(location.pathname);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoggedIn(false);
+      });
+  }
+
+  const handleExit = () => {
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    setEmail(null);
+    navigate('/');
+  };
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  if (isLoggedIn === null) {
+    return (<div className='page'>
+      <div className='page__content'>Loading...</div>
+    </div>);
+  }
+
   return (
     <CurrentUserContext.Provider value={ currentUser }>
       <div className='page'>
         <div className='page__content'>
-          <Header isLoggedIn={ isLoggedIn }/>
+          <Header
+            isLoggedIn={ isLoggedIn }
+            email={ email }
+            handleExit={ handleExit }/>
           <Routes>
             <Route path="/" element={
               <ProtectedRoute

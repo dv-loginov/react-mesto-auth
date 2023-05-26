@@ -1,27 +1,43 @@
 import { Link, useLocation } from 'react-router-dom';
 
-const Header = ({isLoggedIn}) => {
-  // const pathName = useLocation().pathname;
-  const link = (pathname) => {
-    if (pathname === '/login') {
-      return <Link
-        className='header__link'
-        to='/sign-in'>
-        Регистрация
-      </Link>
-    }
-    if (pathname === '/sign-in') {
-      return <Link
-        className='header__link'
-        to='/login'>
-        Войти
-      </Link>
+const Header = ({isLoggedIn, email, handleExit}) => {
+  const pathName = useLocation().pathname;
+
+  const link = () => {
+    if (!isLoggedIn) {
+      if (pathName === '/login') {
+        return <Link
+          className='header__link'
+          to='/sign-in'>
+          Регистрация
+        </Link>
+      }
+
+      if (pathName === '/sign-in') {
+        return <Link
+          className='header__link'
+          to='/login'>
+          Войти
+        </Link>
+      }
+    } else {
+      return (
+        <Link
+          className='header__link'
+          onClick={ handleExit }
+        >Выйти
+        </Link>
+      )
     }
   }
+
   return (
     <header className="header">
       <a href="/" className="logo"> </a>
-      { link(useLocation().pathname) }
+      {
+        isLoggedIn
+          ? <span className="header__mail">{ email }{ link() }</span>
+          : link() }
     </header>
   );
 }

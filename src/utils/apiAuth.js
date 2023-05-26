@@ -25,8 +25,8 @@ class ApiAuth {
     });
   }
 
-  checkToken({jwt}) {
-    return this._request('/users/me', {
+  checkToken(jwt) {
+    return this._request('users/me', {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${ jwt }`
