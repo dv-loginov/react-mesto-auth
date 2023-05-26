@@ -12,6 +12,10 @@ class Api {
     return this._request('users/me', {headers: this._headers});
   }
 
+  getInitData() {
+    return Promise.all([this.getInitialCards(), this.getUser()]);
+  }
+
   setUser({name, about}) {
     return this._request('users/me', {
       method: 'PATCH',

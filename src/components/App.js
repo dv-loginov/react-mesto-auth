@@ -30,20 +30,15 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    api.getUser()
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => console.error(err))
-  }, []);
-
-  useEffect(() => {
-    api.getInitialCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => console.error(err))
-  }, []);
+     if (isLoggedIn) {
+       api.getInitData()
+         .then((data) => {
+           setCards(data[0]);
+           setCurrentUser(data[1]);
+         })
+         .catch((err) => console.error(err));
+     }
+  }, [isLoggedIn]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -109,9 +104,6 @@ const App = () => {
       })
       .catch((err) => console.error(err));
   }
-
-  //login@test.ru
-  //password12345
 
   const handleLogin = ({email, password}) => {
     apiAuth.authorize({password, email})
