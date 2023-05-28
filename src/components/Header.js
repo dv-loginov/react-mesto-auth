@@ -22,11 +22,11 @@ const Header = ({isLoggedIn, email, handleExit}) => {
       }
     } else {
       return (
-        <Link
-          className='header__link'
+        <button
+          className='header__btn'
           onClick={ handleExit }
         >Выйти
-        </Link>
+        </button>
       )
     }
   }

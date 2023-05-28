@@ -1,6 +1,6 @@
 const ImagePopup = ({card, onClose}) => {
   return (
-    <div className={ `popup popup_type_${ card.name }${ card.link && ' popup_opened' }` }>
+    <div className={ `popup popup_type_image ${ card.link && ' popup_opened' }` }>
       <figure className="popup__container-img">
         <img className="popup__img" src={ card.link } alt={ card.name }/>
         <figcaption className="popup__caption">{ card.name }</figcaption>

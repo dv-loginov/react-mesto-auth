@@ -1,6 +1,6 @@
 const InfoTooltip = ({isOpen, onClose, ico, text}) => {
   return (
-    <div className={ `popup popup_type_info ${ isOpen && ' popup_opened' }` }>
+    <div className={ `popup popup_type_info ${ isOpen?' popup_opened':'' }` }>
       <div className='popup__container'>
         <div className="popup__info">
           <div className="popup__ico">{ ico }</div>

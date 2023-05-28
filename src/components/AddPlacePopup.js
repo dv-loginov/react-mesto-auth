@@ -1,7 +1,7 @@
 import PopupWithForm from './PopupWithForm';
 import { useState, useEffect } from 'react';
 
-const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
+const AddPlacePopup = ({isOpen, onClose, onAddPlace, textButton}) => {
 
   const [name, setName] = useState('');
   const [link, setLink] = useState('');
@@ -31,7 +31,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
       title='Новое место'
       isOpen={ isOpen }
       onClose={ onClose }
-      buttonText='Создать'>
+      buttonText={ textButton }>
 
       <input id='title-input'
              type='text'
@@ -50,7 +50,7 @@ const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
              name='url'
              placeholder='Ссылка на картинку'
              value={ link }
-             onChange={ handleChangeLink}
+             onChange={ handleChangeLink }
              required/>
       <span className='url-input-error form__input-error'>Error</span>
     </PopupWithForm>

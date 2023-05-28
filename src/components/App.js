@@ -27,6 +27,8 @@ const App = () => {
   const [cards, setCards] = useState([]);
   const [isLoggedIn, setLoggedIn] = useState(null);
   const [email, setEmail] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,30 +83,36 @@ const App = () => {
   }
 
   const handleUpdateUser = ({name, about}) => {
+    setLoading(true);
     api.setUser({name, about})
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }
 
   const handleUpdateAvatar = ({avatar}) => {
+    setLoading(true);
     api.setAvatar(avatar)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }
 
   const handleAddPlaceSubmit = ({name, link}) => {
+    setLoading(true);
     api.addCard({name, link})
       .then((data) => {
         setCards([data, ...cards]);
         closeAllPopups();
       })
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }
 
   const handleLogin = ({email, password}) => {
@@ -212,18 +220,20 @@ const App = () => {
           <EditProfilePopup
             isOpen={ isEditProfilePopupOpen }
             onClose={ closeAllPopups }
-            onUpdateUser={ handleUpdateUser }/>
+            onUpdateUser={ handleUpdateUser }
+            textButton={ isLoading ? 'Сохранение...' : 'Сохранить' }/>
 
           <EditAvatarPopup
             isOpen={ isEditAvatarPopupOpen }
             onClose={ closeAllPopups }
-            onUpdateAvatar={ handleUpdateAvatar }/>
+            onUpdateAvatar={ handleUpdateAvatar }
+            textButton={ isLoading ? 'Сохранение...' : 'Сохранить' }/>
 
           <AddPlacePopup
             isOpen={ isAddPlacePopupOpen }
             onClose={ closeAllPopups }
             onAddPlace={ handleAddPlaceSubmit }
-          />
+            textButton={ isLoading ? 'Создание...' : 'Создать' }/>
 
           <ImagePopup
             card={ selectedCard }
